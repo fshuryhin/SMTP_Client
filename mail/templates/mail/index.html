@@ -1,0 +1,97 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="{% static 'css/reset.css' %}">
+    <link rel="stylesheet" href="{% static 'css/site.css' %}">
+
+    <script src="{% static 'js/jquery-3.4.1.js' %}"></script>
+    <script src="{% static 'js/script.js' %}"></script>
+
+    <title>SMTP Client</title>
+</head>
+
+<body>
+    <header class="header advanced-color">
+        <div class="container">
+            <h1 class="h1">SMTP Client</h1>
+        </div>
+    </header>
+    
+    <main>
+        <section class="section main-color">
+            <div class="container">
+                <h2 class="h2">
+                    Mail:
+                </h2>
+                
+                <form id="sendmail" class="mail-form" action="{% url 'mail:send' %}" method="POST">
+                    {% csrf_token %}
+                    <div class="mail-form__item">
+                        <label for="from" class="cel--label">From:</label><input class="cel" type="text" id="from" name="from" value="{{dicmail.from}}">
+                    </div>
+                    <div class="mail-form__item">
+                        <label for="to" class="cel--label">To:</label><input class="cel" type="text" id="to" name="to" value="">
+                    </div>
+                    <div class="mail-form__item">
+                        <label for="subject" class="cel--label">Subject:</label><input class="cel" type="text" id="subject" name="subject" value="{{dicmail.subject}}">
+                    </div>
+                    <div class="mail-form__item">
+                        <Label for="text" class="cel--label">Text:</Label><textarea class="cel" id="text" name="text">{{dicmail.text}}</textarea>
+                    </div>
+                    <div class="mail-form__item">
+                        <a class="btn mr-20" href="javascript:sendMail()">Send Mail</a>
+                        <a id="toggle" class="btn" href="#">Settings</a>
+                    </div>
+                </form>
+
+                <div id="message"></div>
+            </div>
+        </section>
+        
+        <section class="section advanced-color toggle">
+            <div class="container">
+                <h2 class="h2">
+                    Mail settings:
+                </h2>
+
+                <form id="setsettings" class="mail-form" action="{% url 'mail:settings' %}" method="POST">
+                    {% csrf_token %}
+                    <div class="mail-form__item">
+                        <label for="host" class="cel--label">Host:</label><input class="cel input-main-color" type="text" id="host" name="host" value="{{dicsettings.host}}">
+                    </div>
+                    <div class="mail-form__item">
+                        <label for="port" class="cel--label">Port:</label><input class="cel input-main-color" type="number" id="port" name="port" value="{{dicsettings.port}}">
+                    </div>
+                    <div class="mail-form__item">
+                        <label for="username" class="cel--label">User Name:</label><input class="cel input-main-color" type="email" id="username" name="username" value="{{dicsettings.username}}">
+                    </div>
+                    <div class="mail-form__item">
+                        <label class="cel--label" for="password">Password:</label><input class="cel input-main-color" type="password" id="password" name="password" value="">
+                    </div>
+                    <div class="mail-form__item">
+                        <label for="use_tls" class="cel--label">Use TLS:</label><div class="cel--checkbox"><input type="checkbox" id="use_tls" name="use_tls" {% if dicsettings.use_tls %} checked {% endif %}></div>
+                    </div>
+                    <div class="mail-form__item">
+                        <label for="use_ssl" class="cel--label">Use SSL:</label><div class="cel--checkbox"><input type="checkbox" id="use_ssl" name="use_ssl" {% if dicsettings.use_ssl %} checked {% endif %}></div>
+                    </div>
+                    <div class="mail-form__item">
+                        <a class="btn btn-main-color" href="javascript:setSettings()">SAVE</a>
+                    </div>
+                </form>
+
+                <div id="smptmessage"></div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            &copy;mageo-it
+        </div>
+    </footer>
+</body>
+</html>
